@@ -26,6 +26,15 @@ def Look_for_ingredients(id_recipes):
 def Look_recipes_byId(id_recipes:int):
     recipe = df_recipes[df_recipes['id'] == id_recipes]
     return recipe.to_dict('records')
+
+def Look_forId_ingredients(name_ingredient:str):
+    name_ingredient = name_ingredient.lower()
+    df = df_ingredients[df_ingredients['name'] == name_ingredient]
+    if df.empty:
+        return 0
+    print(df,'\n'*4)
+    id_ingredient = df.loc[0][0]
+    return id_ingredient
     
 # def Look_for_ingredient(id_recipe:int, name = False):
 #     id_ingredients = df_itr[df_itr["recipe_id"] == id_recipe].ingredient_id.values

@@ -18,12 +18,12 @@
         <input type="text" name="description">
         <label>ingredientes</label>
         {% for i in number_of_ingredients %}
-        <input type="text" name="recipe_{{ i }}">
+        <input type="text" name="ingredient{{ i }}">
         {% endfor %}
+        <input type="submit" value="Registrar">
     </form>
-    <form action="/add_ingredient" method="post">
-        <input type="submit" value="Agregar ingrediente">
-    </form>
+    <a href="/add_ingredient">Agregar ingrediente</a>
+    <a href="/add_ingredient?delete=True">Eliminar ingrediente</a>
     
     <!-- <form action="/upto" method="post">
         <td><input type="text" name="new_id"><input type="text" name="new_name"></td>

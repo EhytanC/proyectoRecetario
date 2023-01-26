@@ -2,18 +2,12 @@ from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from pydantic import BaseModel
-from lookfor import Look_for_ingredients, Look_recipes_byName, Look_recipes_byId
-number_of_ingredients = [1]
+from lookfor import Look_for_ingredients, Look_recipes_byName, Look_recipes_byId, Look_forId_ingredients
+from record import Record_recipe
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="./static"), name="static")
 templates = Jinja2Templates(directory="templates")
-
-class Recipe(BaseModel):
-    id:int
-    name:str
-    description:str
-    ingredients:list
+number_of_ingredients = [1]
 
 @app.get('/buscador')
 def seeker(request: Request, search:str|None = None):
@@ -42,7 +36,30 @@ def look_recipe(request:Request, id_recipe:int):
 def post_recipe(request:Request):
     return templates.TemplateResponse('post_recipe.html', {'request':request, 'number_of_ingredients':number_of_ingredients})
 
-@app.post('/add_ingredient')
-def add_ingredient():
+@app.post('/recetas')
+async def post_recipe(request:Request):
+    form_data = await request.form()
+    id_ingredients = []
+    recipe_to_post = {
+        'id': [form_data['id_recipe']],
+        'name': [form_data['name_recipe']],
+        'description': [form_data['description']],
+        }
+    for i in number_of_ingredients:
+        id_ingredients.append(Look_forId_ingredients(form_data[f'ingredient{i}']))
+    print(f'{id_ingredients} {recipe_to_post}')
+    Record_recipe(recipe_to_post,id_ingredients)
+    return RedirectResponse('/recetas', 303)
+
+@app.get('/add_ingredient')
+def add_ingredient(delete:bool = False):
+  
+    if len(number_of_ingredients) == 1 and delete:
+        return RedirectResponse('/recetas',303)
+
+    if delete:
+        number_of_ingredients.pop()
+        return RedirectResponse('/recetas',303)
+  
     number_of_ingredients.append(number_of_ingredients[-1] + 1)
     return RedirectResponse('/recetas',303)
