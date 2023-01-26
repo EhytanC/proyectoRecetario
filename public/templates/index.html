@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet"> -->
+    <title>index</title>
+</head>
+<body>
+    <h1>Listado de recetas</h1> <br/>
+    <table>
+        <thead>
+            <tr>
+                <th>Receta</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in data %}
+                <tr>
+                    <td>{{ i.name }}</td>
+                    <td><a href="/delete/{{ i.id }}">Eliminar</a></td>
+                </tr>
+            {% endfor %}
+
+            <tr>
+                <form action="/upto" method="post">
+                    <td><input type="text" name="new_id"><input type="text" name="new_name"></td>
+                    <td><button type="submit">Agregar receta</button></td>
+                </form>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

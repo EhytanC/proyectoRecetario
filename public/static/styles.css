@@ -1,0 +1,23 @@
+*{
+  font-family:monospace;
+  color: white;
+  padding:3px;
+}
+table{
+  width:100%;
+}
+body{
+  background-color:#202020;
+}
+button{
+  background-color:#202020;
+  border:1px solid white;
+}
+button:hover{
+  background-color:white;
+  color:#202020;
+}
+input{
+  background-color:#202020;
+  border:1px solid white;
+}
