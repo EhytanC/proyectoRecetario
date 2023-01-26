@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet"> -->
+    <title>index</title>
+</head>
+<body>
+    <h1>Registra una receta</h1>
+    <form action="/recetas" method="post">
+        <label>id</label>
+        <input type="text" name="id_recipe">
+        <label>nombre</label>
+        <input type="text" name="name_recipe">
+        <label>description</label>
+        <input type="text" name="description">
+        <label>ingredientes</label>
+        {% for i in number_of_ingredients %}
+        <input type="text" name="recipe_{{ i }}">
+        {% endfor %}
+    </form>
+    <form action="/add_ingredient" method="post">
+        <input type="submit" value="Agregar ingrediente">
+    </form>
+    
+    <!-- <form action="/upto" method="post">
+        <td><input type="text" name="new_id"><input type="text" name="new_name"></td>
+        <td><button type="submit">Agregar receta</button></td>
+    </form> -->
+</body>
+</html>

@@ -2,11 +2,18 @@ from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from pydantic import BaseModel
 from lookfor import Look_for_ingredients, Look_recipes_byName, Look_recipes_byId
-
+number_of_ingredients = [1]
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="./static"), name="static")
 templates = Jinja2Templates(directory="templates")
+
+class Recipe(BaseModel):
+    id:int
+    name:str
+    description:str
+    ingredients:list
 
 @app.get('/buscador')
 def seeker(request: Request, search:str|None = None):
@@ -30,3 +37,12 @@ def look_recipe(request:Request, id_recipe:int):
     data = Look_recipes_byId(id_recipe)
     data[-1]['ingredients'] = Look_for_ingredients([data[-1]['id']])[-1]
     return templates.TemplateResponse('look_recipe.html',{'request': request, 'data':data})
+
+@app.get('/recetas')
+def post_recipe(request:Request):
+    return templates.TemplateResponse('post_recipe.html', {'request':request, 'number_of_ingredients':number_of_ingredients})
+
+@app.post('/add_ingredient')
+def add_ingredient():
+    number_of_ingredients.append(number_of_ingredients[-1] + 1)
+    return RedirectResponse('/recetas',303)
