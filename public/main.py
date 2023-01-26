@@ -5,7 +5,9 @@ from fastapi.templating import Jinja2Templates
 from lookfor import Look_for_ingredients, Look_recipes_byName, Look_recipes_byId, Look_forId_ingredients
 from record import Record_recipe
 app = FastAPI()
+
 app.mount("/static", StaticFiles(directory="./static"), name="static")
+
 templates = Jinja2Templates(directory="templates")
 number_of_ingredients = [1]
 
@@ -47,7 +49,7 @@ async def post_recipe(request:Request):
         }
     for i in number_of_ingredients:
         id_ingredients.append(Look_forId_ingredients(form_data[f'ingredient{i}']))
-    print(f'{id_ingredients} {recipe_to_post}')
+    print(f'{id_ingredients}\n{recipe_to_post}\n')
     Record_recipe(recipe_to_post,id_ingredients)
     return RedirectResponse('/recetas', 303)
 

@@ -8,6 +8,7 @@
     <title>index</title>
 </head>
 <body>
+    <a style='text-decoration:none;' href="/recetas">Registrar receta</a>
     <h1>Buscar receta</h1>
     <form action="/buscador" method="get">
         <input type="text" name="search" placeholder='Busca aqui...'required>
@@ -23,7 +24,7 @@
         <tbody>
             {% for i in data %}
             <tr>
-                    <td><a href="/recetas/{{ i.id }}">{{ i.name }}</a></td>
+                    <td><a style='text-decoration:none;' href="/recetas/{{ i.id }}">{{ i.name }}</a></td>
                     <td>{{ i.ingredients }}</td>
             </tr>
             {% endfor %}
